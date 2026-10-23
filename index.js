@@ -14,7 +14,7 @@ const createAdminRouter = require('./admin');
 // ============================================================================
 const CONFIG = {
   // Business Settings
-  name: 'Lumina Skin Clinic',
+  name: process.env.NAME || 'Lumina Skin Clinic',
   tagline: 'Clinical Dermatology & Bespoke Facial Therapies',
   subheading: 'Science-led medical aesthetics, restorative clinical facials, and evidence-based skin rejuvenation tailored to your skin biology.',
   address: '428 Crescent Boulevard, Suite 300, Metropolis',
@@ -488,6 +488,7 @@ const missingEnvs = [];
 if (!process.env.MONGODB_URI) missingEnvs.push('MONGODB_URI');
 if (!process.env.ADMIN_USERNAME) missingEnvs.push('ADMIN_USERNAME');
 if (!process.env.ADMIN_PASSWORD) missingEnvs.push('ADMIN_PASSWORD');
+if (!process.env.NAME) missingEnvs.push('NAME');
 
 if (missingEnvs.length > 0) {
   console.warn(
