@@ -1,0 +1,6 @@
+{
+  "name": "Lumina Skin Clinic",
+  "description": "White-label skin care clinic website, online booking engine, and admin portal.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
