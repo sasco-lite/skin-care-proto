@@ -5,6 +5,7 @@
  */
 
 const express = require('express');
+const path = require('path');
 const { MongoClient } = require('mongodb');
 const createAdminRouter = require('./admin');
 
@@ -71,7 +72,7 @@ const CONFIG = {
       price: 280,
       description: 'Precision automated micro-channeling infused with bio-identical exosomes to trigger collagen neocollagenesis and smooth texture.',
       benefits: ['Softens fine lines & acne scarring', 'Refines enlarged pore architecture', 'Accelerates cellular turnover'],
-      image: 'https://images.unsplash.com/photo-1512290900672-1f486d389a81?auto=format&fit=crop&w=800&q=80',
+      image: '/src/assets/images/treatment_microneedling_1792757367750.jpg',
     },
     {
       id: 'biorevitalizing-peel',
@@ -101,7 +102,7 @@ const CONFIG = {
       price: 155,
       description: 'Targeted high-frequency and liposomal salicylic peel engineered specifically for congested, blemish-prone or cystic acne conditions.',
       benefits: ['Regulates sebum production', 'Eliminates bacteria beneath stratum corneum', 'Prevents post-inflammatory marks'],
-      image: 'https://images.unsplash.com/photo-1512290903672-0402b8d035fb?auto=format&fit=crop&w=800&q=80',
+      image: '/src/assets/images/treatment_clarifying_1792757368600.jpg',
     },
     {
       id: 'dermaplaning-antioxidant',
@@ -220,7 +221,7 @@ const CONFIG = {
       title: 'Master Clinical Esthetician',
       specialty: 'Cellular Microneedling & Exosome Therapy',
       bio: 'CIDESCO-certified clinical esthetician specializing in corrective collagen therapy and post-inflammatory skin recovery.',
-      image: 'https://images.unsplash.com/photo-1594824813587-578b66723223?auto=format&fit=crop&w=600&q=80',
+      image: '/src/assets/images/team_camille_esthetician_1792757440410.jpg',
     },
     {
       name: 'Dr. Julian Thorne, PhD',
@@ -250,13 +251,13 @@ const CONFIG = {
       title: 'Active Peptide Infusion',
       category: 'Treatment',
       caption: 'Targeted hydration delivered via micro-misting',
-      image: 'https://images.unsplash.com/photo-1512290900672-1f486d389a81?auto=format&fit=crop&w=800&q=80',
+      image: '/src/assets/images/gallery_peptide_infusion_1792757369032.jpg',
     },
     {
       title: 'Botanical Formulation Bar',
       category: 'Formulation',
       caption: 'Freshly compounded active antioxidants',
-      image: 'https://images.unsplash.com/photo-1608248597359-009188d32b50?auto=format&fit=crop&w=800&q=80',
+      image: '/src/assets/images/gallery_formulation_bar_1792757369412.jpg',
     },
     {
       title: 'Medical LED Spectrum',
@@ -305,6 +306,22 @@ const CONFIG = {
       answer: 'Yes, both digital gift certificates and curated series packages (courses of 3 or 6 sessions) are available at our clinic or upon inquiry via WhatsApp or phone.',
     },
   ],
+};
+
+// ============================================================================
+// SVG ICONS (NO RAW EMOJI)
+// ============================================================================
+const ICONS = {
+  whatsapp: `<svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L0 24l6.335-1.662c1.746.953 3.71 1.456 5.711 1.457h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>`,
+  phone: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>`,
+  mail: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>`,
+  mapPin: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0"/><circle cx="12" cy="10" r="3"/></svg>`,
+  calendar: `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>`,
+  check: `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`,
+  checkSmall: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>`,
+  chevron: `<svg class="faq-chevron" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>`,
+  starSolid: `<svg width="17" height="17" viewBox="0 0 24 24" fill="#F59E0B" stroke="#F59E0B" stroke-width="1" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+  starMuted: `<svg width="17" height="17" viewBox="0 0 24 24" fill="#E2E8F0" stroke="#CBD5E1" stroke-width="1" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
 };
 
 // ============================================================================
@@ -381,7 +398,7 @@ const inMemoryCol = {
 };
 
 const memoryDbAdapter = {
-  collection: (name) => inMemoryCol,
+  collection: () => inMemoryCol,
 };
 
 async function getDb() {
@@ -452,6 +469,10 @@ function checkBookingRateLimit(ip) {
 const app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+// Serve static image assets
+app.use('/src/assets/images', express.static(path.join(__dirname, 'src/assets/images')));
+app.use('/assets/images', express.static(path.join(__dirname, 'src/assets/images')));
 
 // Security Headers Middleware
 app.use((req, res, next) => {
@@ -812,12 +833,42 @@ function renderPublicSite(config, envWarnings) {
 
     .tabular { font-variant-numeric: tabular-nums; }
 
+    /* ==========================================================================
+       SMOOTH ENTRANCE & SCROLL ANIMATIONS
+       ========================================================================== */
+    @keyframes heroFadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .hero-anim-kicker { animation: heroFadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .hero-anim-title { animation: heroFadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards; opacity: 0; }
+    .hero-anim-lead { animation: heroFadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards; opacity: 0; }
+    .hero-anim-cta { animation: heroFadeInUp 0.85s cubic-bezier(0.16, 1, 0.3, 1) 0.3s forwards; opacity: 0; }
+    .hero-anim-card { animation: heroFadeInUp 0.95s cubic-bezier(0.16, 1, 0.3, 1) 0.25s forwards; opacity: 0; }
+
+    .reveal-on-scroll {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal-on-scroll.is-revealed {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     /* Claymorphism Buttons */
     .clay-btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 0.5rem;
+      gap: 0.55rem;
       background-color: var(--color-sage);
       color: #FFFFFF;
       font-family: 'Plus Jakarta Sans', sans-serif;
@@ -829,7 +880,7 @@ function renderPublicSite(config, envWarnings) {
       box-shadow: var(--clay-shadow);
       cursor: pointer;
       text-decoration: none;
-      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
       white-space: nowrap;
       user-select: none;
     }
@@ -981,12 +1032,12 @@ function renderPublicSite(config, envWarnings) {
       position: relative;
     }
 
-    /* Trust Stats Grid */
+    /* Trust Stats Grid (Animated Counting) */
     .trust-strip {
       background: var(--bg-surface);
       border-top: 1px solid var(--border-subtle);
       border-bottom: 1px solid var(--border-subtle);
-      padding: 3rem 0;
+      padding: 3.5rem 0;
     }
     .stats-grid {
       display: grid;
@@ -996,14 +1047,18 @@ function renderPublicSite(config, envWarnings) {
     }
     .stat-number {
       font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 2.85rem;
+      font-size: 3.15rem;
       font-weight: 700;
       color: var(--color-sage-dark);
       line-height: 1;
-      margin-bottom: 0.35rem;
+      margin-bottom: 0.45rem;
+      min-height: 3.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .stat-label {
-      font-size: 0.85rem;
+      font-size: 0.875rem;
       color: var(--text-muted);
       font-weight: 500;
       letter-spacing: 0.02em;
@@ -1051,11 +1106,11 @@ function renderPublicSite(config, envWarnings) {
       overflow: hidden;
       display: flex;
       flex-direction: column;
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
     }
     .service-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 12px 28px rgba(83, 117, 100, 0.08);
+      transform: translateY(-6px);
+      box-shadow: 0 16px 34px rgba(83, 117, 100, 0.1);
     }
     .service-img-wrap {
       width: 100%;
@@ -1068,10 +1123,10 @@ function renderPublicSite(config, envWarnings) {
       width: 100%;
       height: 100%;
       object-fit: cover;
-      transition: transform 0.4s ease;
+      transition: transform 0.5s ease;
     }
     .service-card:hover .service-img {
-      transform: scale(1.04);
+      transform: scale(1.06);
     }
     .service-body {
       padding: 1.75rem;
@@ -1107,15 +1162,15 @@ function renderPublicSite(config, envWarnings) {
     .service-benefits li {
       font-size: 0.8rem;
       color: var(--text-main);
-      margin-bottom: 0.4rem;
+      margin-bottom: 0.45rem;
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
-    .service-benefits li::before {
-      content: '✓';
-      color: var(--color-sage);
-      font-weight: 700;
+    .benefit-icon {
+      color: var(--color-sage-dark);
+      display: inline-flex;
+      flex-shrink: 0;
     }
     .service-footer {
       display: flex;
@@ -1161,11 +1216,12 @@ function renderPublicSite(config, envWarnings) {
       line-height: 1;
       margin-bottom: 0.25rem;
     }
-    .stars-row {
-      color: #F59E0B;
-      font-size: 1.35rem;
-      letter-spacing: 2px;
-      margin-bottom: 0.5rem;
+    .stars-cluster {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 3px;
+      margin-bottom: 0.6rem;
     }
     .dist-bar-row {
       display: flex;
@@ -1187,7 +1243,7 @@ function renderPublicSite(config, envWarnings) {
       background: #F59E0B;
       width: 0%;
       border-radius: 999px;
-      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: width 1.4s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .reviews-carousel-grid {
       display: grid;
@@ -1201,6 +1257,11 @@ function renderPublicSite(config, envWarnings) {
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
+      transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+    }
+    .review-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(83, 117, 100, 0.08);
     }
     .reviewer-header {
       display: flex;
@@ -1249,6 +1310,7 @@ function renderPublicSite(config, envWarnings) {
       overflow: hidden;
       aspect-ratio: 4 / 3;
       background: var(--color-sage-soft);
+      transition: transform 0.35s ease;
     }
     .gallery-img {
       width: 100%;
@@ -1257,7 +1319,7 @@ function renderPublicSite(config, envWarnings) {
       transition: transform 0.4s ease;
     }
     .gallery-card:hover .gallery-img {
-      transform: scale(1.05);
+      transform: scale(1.06);
     }
     .gallery-scrim {
       position: absolute;
@@ -1295,6 +1357,11 @@ function renderPublicSite(config, envWarnings) {
       border: 1px solid var(--border-subtle);
       overflow: hidden;
       text-align: center;
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+    }
+    .team-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 14px 30px rgba(83, 117, 100, 0.08);
     }
     .team-img-wrap {
       width: 100%;
@@ -1306,6 +1373,10 @@ function renderPublicSite(config, envWarnings) {
       width: 100%;
       height: 100%;
       object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+    .team-card:hover .team-img {
+      transform: scale(1.04);
     }
     .team-info {
       padding: 1.5rem;
@@ -1390,18 +1461,20 @@ function renderPublicSite(config, envWarnings) {
       border: 1px solid var(--border-subtle);
       background: var(--bg-cream);
       color: var(--text-main);
-      transition: all 0.15s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .slot-chip:hover:not(.disabled) {
       background: var(--color-sage-soft);
       border-color: var(--color-sage);
       color: var(--color-sage-dark);
+      transform: translateY(-1px);
     }
     .slot-chip.selected {
       background: var(--color-sage);
       color: #FFFFFF;
       border-color: var(--color-sage);
       box-shadow: var(--clay-shadow);
+      transform: scale(1.03);
     }
     .slot-chip.disabled {
       opacity: 0.4;
@@ -1424,7 +1497,7 @@ function renderPublicSite(config, envWarnings) {
       padding: 1.5rem;
       opacity: 0;
       visibility: hidden;
-      transition: all 0.25s ease;
+      transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.3s ease;
     }
     .modal-overlay.open {
       opacity: 1;
@@ -1439,12 +1512,12 @@ function renderPublicSite(config, envWarnings) {
       overflow-y: auto;
       padding: 2.5rem;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
-      transform: scale(0.95);
-      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      transform: scale(0.92) translateY(20px);
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
       position: relative;
     }
     .modal-overlay.open .modal-card {
-      transform: scale(1);
+      transform: scale(1) translateY(0);
     }
     .modal-close {
       position: absolute;
@@ -1461,8 +1534,22 @@ function renderPublicSite(config, envWarnings) {
       display: flex;
       align-items: center;
       justify-content: center;
+      transition: background-color 0.2s;
     }
     .modal-close:hover { background: var(--color-sage-soft); color: var(--text-main); }
+
+    .success-icon-wrap {
+      width: 60px;
+      height: 60px;
+      background: var(--color-sage-soft);
+      color: var(--color-sage-dark);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem;
+      animation: heroFadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
 
     /* Floating Contact Dock (Glassmorphism 15%) */
     .floating-dock {
@@ -1478,7 +1565,7 @@ function renderPublicSite(config, envWarnings) {
       gap: 0.5rem;
       padding: 0.5rem 0.75rem;
       border-radius: 999px;
-      transition: all 0.25s ease;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
     }
     /* Mobile: Bottom Bar */
     @media (max-width: 768px) {
@@ -1508,26 +1595,29 @@ function renderPublicSite(config, envWarnings) {
     .dock-btn {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.6rem 0.85rem;
+      gap: 0.5rem;
+      padding: 0.65rem 0.9rem;
       border-radius: 12px;
       text-decoration: none;
       color: var(--text-main);
       font-size: 0.825rem;
       font-weight: 600;
-      transition: all 0.2s;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
     .dock-btn:hover {
       background: var(--color-sage-soft);
       color: var(--color-sage-dark);
+      transform: translateY(-2px);
     }
     .dock-btn-primary {
       background: var(--color-sage);
       color: #FFFFFF !important;
       box-shadow: var(--clay-shadow);
+      border: 1px solid rgba(255, 255, 255, 0.3);
     }
     .dock-btn-primary:hover {
       background: var(--color-sage-dark);
+      box-shadow: var(--clay-shadow-hover);
     }
 
     /* FAQ Accordion */
@@ -1543,7 +1633,10 @@ function renderPublicSite(config, envWarnings) {
       border: 1px solid var(--border-subtle);
       border-radius: 16px;
       overflow: hidden;
-      transition: border-color 0.2s;
+      transition: border-color 0.25s, box-shadow 0.25s;
+    }
+    .faq-item:hover {
+      border-color: rgba(107, 142, 125, 0.3);
     }
     .faq-question {
       width: 100%;
@@ -1560,22 +1653,22 @@ function renderPublicSite(config, envWarnings) {
       align-items: center;
       cursor: pointer;
     }
-    .faq-icon {
-      font-size: 1.25rem;
-      color: var(--color-sage);
-      transition: transform 0.25s ease;
+    .faq-chevron {
+      color: var(--color-sage-dark);
+      transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      flex-shrink: 0;
+    }
+    .faq-item.active .faq-chevron {
+      transform: rotate(180deg);
     }
     .faq-answer {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), padding 0.2s;
+      transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.25s;
       color: var(--text-muted);
       font-size: 0.925rem;
       line-height: 1.65;
       padding: 0 1.75rem;
-    }
-    .faq-item.active .faq-icon {
-      transform: rotate(45deg);
     }
     .faq-item.active .faq-answer {
       max-height: 250px;
@@ -1683,7 +1776,8 @@ function renderPublicSite(config, envWarnings) {
       <!-- Zone 3: 1 Primary CTA -->
       <div style="display: flex; align-items: center; gap: 1rem;">
         <button onclick="openBookingModal()" class="clay-btn clay-btn-sm">
-          Book Treatment
+          ${ICONS.calendar}
+          <span>Book Treatment</span>
         </button>
       </div>
     </div>
@@ -1696,31 +1790,42 @@ function renderPublicSite(config, envWarnings) {
 
     <div class="container hero-grid">
       <div>
-        <span class="section-kicker">Clinical Aesthetics &amp; Skin Health</span>
-        <h1 class="hero-headline">${escapeHtml(config.tagline)}</h1>
-        <p class="hero-lead">${escapeHtml(config.subheading)}</p>
+        <span class="section-kicker hero-anim-kicker">Clinical Aesthetics &amp; Skin Health</span>
+        <h1 class="hero-headline hero-anim-title">${escapeHtml(config.tagline)}</h1>
+        <p class="hero-lead hero-anim-lead">${escapeHtml(config.subheading)}</p>
 
-        <div class="hero-actions">
+        <div class="hero-actions hero-anim-cta">
           <button onclick="openBookingModal()" class="clay-btn">
-            Book an Appointment
+            ${ICONS.calendar}
+            <span>Book an Appointment</span>
           </button>
           <a href="#services" class="clay-btn clay-btn-secondary">
-            Explore Treatments &darr;
+            <span>Explore Treatments</span>
+            <span style="font-size: 0.85rem;">&darr;</span>
           </a>
         </div>
 
         <!-- 5 Actions Quick Strip in Hero -->
-        <div style="display: flex; flex-wrap: wrap; gap: 1.25rem; font-size: 0.85rem; color: var(--text-muted); align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
-          <a href="${waLink}" target="_blank" style="color: var(--color-sage-dark); font-weight: 600; text-decoration: none;">WhatsApp Concierge</a>
+        <div class="hero-anim-cta" style="display: flex; flex-wrap: wrap; gap: 1.25rem; font-size: 0.85rem; color: var(--text-muted); align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 1.5rem;">
+          <a href="${waLink}" target="_blank" rel="noopener noreferrer" style="color: var(--color-sage-dark); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+            ${ICONS.whatsapp}
+            <span>WhatsApp Concierge</span>
+          </a>
           <span>&middot;</span>
-          <a href="${telLink}" style="color: var(--text-main); font-weight: 600; text-decoration: none;">${escapeHtml(config.phone)}</a>
+          <a href="${telLink}" style="color: var(--text-main); font-weight: 600; text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+            ${ICONS.phone}
+            <span>${escapeHtml(config.phone)}</span>
+          </a>
           <span>&middot;</span>
-          <a href="${dirLink}" target="_blank" style="color: var(--text-main); text-decoration: none;">Get Directions &rarr;</a>
+          <a href="${dirLink}" target="_blank" rel="noopener noreferrer" style="color: var(--text-main); text-decoration: none; display: inline-flex; align-items: center; gap: 0.4rem;">
+            ${ICONS.mapPin}
+            <span>Get Directions</span>
+          </a>
         </div>
       </div>
 
       <!-- Hero Glass Info Card -->
-      <div class="glass-surface hero-card">
+      <div class="glass-surface hero-card hero-anim-card">
         <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem;">
           <span style="font-size: 0.8rem; font-weight: 600; text-transform: uppercase; color: var(--color-sage-dark); letter-spacing: 0.1em;">Metropolis Clinic</span>
           <span style="font-size: 0.75rem; background: var(--color-sage-soft); color: var(--color-sage-dark); padding: 0.25rem 0.6rem; border-radius: 999px; font-weight: 600;">Accepting New Patients</span>
@@ -1738,20 +1843,21 @@ function renderPublicSite(config, envWarnings) {
         </div>
 
         <button onclick="openBookingModal()" class="clay-btn" style="width: 100%;">
-          Reserve Slot Online
+          ${ICONS.calendar}
+          <span>Reserve Slot Online</span>
         </button>
       </div>
     </div>
   </section>
 
-  <!-- Trust Stats (Animated Counting Effect via IntersectionObserver) -->
+  <!-- Trust Stats (Animated Smooth Counting Effect) -->
   <section class="trust-strip">
     <div class="container">
       <div class="stats-grid">
         ${config.trustStats
           .map(
             (s) => `
-          <div>
+          <div class="reveal-on-scroll">
             <div class="stat-number tabular" data-count-target="${s.value}" data-decimals="${s.decimals}" data-suffix="${escapeHtml(s.suffix)}">0</div>
             <div class="stat-label">${escapeHtml(s.label)}</div>
           </div>
@@ -1765,7 +1871,7 @@ function renderPublicSite(config, envWarnings) {
   <!-- Services & Treatments (8 items) -->
   <section id="services" class="section-wrap">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Tailored Formulations</span>
         <h2 class="section-title">Clinical Treatments</h2>
         <p class="section-desc">Each treatment begins with a digital skin barrier analysis to prescribe pure active ingredients matching your cell turnover cycle.</p>
@@ -1775,7 +1881,7 @@ function renderPublicSite(config, envWarnings) {
         ${config.services
           .map(
             (s) => `
-          <div class="service-card" id="card-${s.id}">
+          <div class="service-card reveal-on-scroll" id="card-${s.id}">
             <div class="service-img-wrap">
               <img src="${s.image}"
                    alt="${escapeHtml(s.title)}"
@@ -1796,13 +1902,23 @@ function renderPublicSite(config, envWarnings) {
               <p class="service-desc">${escapeHtml(s.description)}</p>
 
               <ul class="service-benefits">
-                ${s.benefits.map((b) => `<li>${escapeHtml(b)}</li>`).join('')}
+                ${s.benefits
+                  .map(
+                    (b) => `
+                  <li>
+                    <span class="benefit-icon">${ICONS.checkSmall}</span>
+                    <span>${escapeHtml(b)}</span>
+                  </li>
+                `
+                  )
+                  .join('')}
               </ul>
 
               <div class="service-footer">
                 <span class="service-price tabular">${priceFormatter.format(s.price)}</span>
                 <button onclick="selectServiceAndBook('${s.id}')" class="clay-btn clay-btn-sm">
-                  Book Treatment
+                  ${ICONS.calendar}
+                  <span>Book Treatment</span>
                 </button>
               </div>
             </div>
@@ -1817,32 +1933,32 @@ function renderPublicSite(config, envWarnings) {
   <!-- Why Choose Us -->
   <section id="why-us" class="section-wrap" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Clinical Integrity</span>
         <h2 class="section-title">The Lumina Standard</h2>
         <p class="section-desc">We avoid ephemeral trends in favor of cellular dermatology, sterile clinical protocol, and documented patient outcomes.</p>
       </div>
 
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
-        <div style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle);">
+        <div class="reveal-on-scroll" style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle);">
           <div style="font-size: 1.5rem; color: var(--color-sage-dark); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-weight: 700;">01.</div>
           <h3 style="font-size: 1.35rem; margin-bottom: 0.65rem; color: var(--text-main);">Sterile Medical Rigor</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Autoclave sterilization for every single instrument, single-use tips, and hospital-grade surgical hygiene standards.</p>
         </div>
 
-        <div style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle);">
+        <div class="reveal-on-scroll" style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle); transition-delay: 0.1s;">
           <div style="font-size: 1.5rem; color: var(--color-sage-dark); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-weight: 700;">02.</div>
           <h3 style="font-size: 1.35rem; margin-bottom: 0.65rem; color: var(--text-main);">Certified Dermal Specialists</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Every treatment is delivered exclusively by licensed estheticians and nurses with minimum 5 years clinical tenure.</p>
         </div>
 
-        <div style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle);">
+        <div class="reveal-on-scroll" style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle); transition-delay: 0.2s;">
           <div style="font-size: 1.5rem; color: var(--color-sage-dark); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-weight: 700;">03.</div>
           <h3 style="font-size: 1.35rem; margin-bottom: 0.65rem; color: var(--text-main);">Bio-Identical Actives</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Pharmaceutical grade peptides, pure growth factors, and liposomal acids without artificial fragrances or fillers.</p>
         </div>
 
-        <div style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle);">
+        <div class="reveal-on-scroll" style="padding: 2rem; border-radius: 16px; background: var(--bg-cream); border: 1px solid var(--border-subtle); transition-delay: 0.3s;">
           <div style="font-size: 1.5rem; color: var(--color-sage-dark); margin-bottom: 1rem; font-family: 'Cormorant Garamond', serif; font-weight: 700;">04.</div>
           <h3 style="font-size: 1.35rem; margin-bottom: 0.65rem; color: var(--text-main);">Long-Term Regimen Plan</h3>
           <p style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.6;">Personalized homecare protocol sent after every appointment, designed to sustain dermal collagen density between visits.</p>
@@ -1854,25 +1970,32 @@ function renderPublicSite(config, envWarnings) {
   <!-- Google Reviews & Rating Profile (Structured like Google Business Profile) -->
   <section id="reviews" class="section-wrap">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Verified Patient Experiences</span>
         <h2 class="section-title">Google Business Reviews</h2>
         <p class="section-desc">Live community ratings independently verified by patients on our official Google Business profile.</p>
       </div>
 
       <!-- Google Profile Summary Card -->
-      <div class="google-card">
+      <div class="google-card reveal-on-scroll">
         <div class="google-summary-grid">
           <div class="google-score-box">
             <div style="font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); margin-bottom: 0.25rem;">Overall Rating</div>
             <div class="google-big-score tabular" data-count-target="${config.reviewsData.averageRating}" data-decimals="1">0.0</div>
-            <div class="stars-row">★★★★★</div>
+            <div class="stars-cluster">
+              ${ICONS.starSolid}
+              ${ICONS.starSolid}
+              ${ICONS.starSolid}
+              ${ICONS.starSolid}
+              ${ICONS.starSolid}
+            </div>
             <div style="font-size: 0.85rem; color: var(--text-muted);">
               Based on <strong class="tabular" style="color: var(--text-main); font-weight: 700;" data-count-target="${config.reviewsData.totalReviews}">0</strong> verified reviews
             </div>
             <div style="margin-top: 1.25rem;">
               <a href="${config.googleReviewsUrl}" target="_blank" rel="noopener noreferrer" class="clay-btn clay-btn-secondary clay-btn-sm">
-                View all on Google &rarr;
+                <span>View all on Google</span>
+                <span style="font-size: 0.85rem;">&rarr;</span>
               </a>
             </div>
           </div>
@@ -1883,7 +2006,7 @@ function renderPublicSite(config, envWarnings) {
               .map(
                 (d) => `
               <div class="dist-bar-row">
-                <span style="width: 50px; font-weight: 500;">${d.stars} stars</span>
+                <span style="width: 55px; font-weight: 500;">${d.stars} stars</span>
                 <div class="dist-progress-bg">
                   <div class="dist-progress-fill" data-progress-width="${d.percentage}%"></div>
                 </div>
@@ -1901,7 +2024,7 @@ function renderPublicSite(config, envWarnings) {
         ${config.reviewsData.items
           .map(
             (r) => `
-          <div class="review-card">
+          <div class="review-card reveal-on-scroll">
             <div class="reviewer-header">
               <div class="reviewer-avatar">${escapeHtml(r.initial)}</div>
               <div class="reviewer-info">
@@ -1909,8 +2032,8 @@ function renderPublicSite(config, envWarnings) {
                 <span>${escapeHtml(r.timeAgo)} &middot; Verified Patient</span>
               </div>
             </div>
-            <div class="stars-row" style="font-size: 1rem; margin-bottom: 0.5rem;">
-              ${'★'.repeat(r.rating)}${'☆'.repeat(5 - r.rating)}
+            <div class="stars-cluster" style="justify-content: flex-start; margin-bottom: 0.65rem;">
+              ${Array.from({ length: 5 }, (_, i) => (i < r.rating ? ICONS.starSolid : ICONS.starMuted)).join('')}
             </div>
             <p class="review-text">"${escapeHtml(r.text)}"</p>
           </div>
@@ -1924,7 +2047,7 @@ function renderPublicSite(config, envWarnings) {
   <!-- Clinic Gallery (6 Items) -->
   <section id="gallery" class="section-wrap" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Sanctuary of Care</span>
         <h2 class="section-title">The Treatment Space</h2>
         <p class="section-desc">Designed with architectural minimalism, private ambient temperature control, and clinical air purification.</p>
@@ -1934,7 +2057,7 @@ function renderPublicSite(config, envWarnings) {
         ${config.gallery
           .map(
             (g) => `
-          <div class="gallery-card">
+          <div class="gallery-card reveal-on-scroll">
             <img src="${g.image}"
                  alt="${escapeHtml(g.title)}"
                  class="gallery-img"
@@ -1959,7 +2082,7 @@ function renderPublicSite(config, envWarnings) {
   <!-- Clinical Team (4 Members) -->
   <section class="section-wrap">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Specialist Credentials</span>
         <h2 class="section-title">Our Clinical Practitioners</h2>
         <p class="section-desc">Led by board-certified dermatologists and licensed master estheticians with specialized degrees in dermal science.</p>
@@ -1969,7 +2092,7 @@ function renderPublicSite(config, envWarnings) {
         ${config.team
           .map(
             (m) => `
-          <div class="team-card">
+          <div class="team-card reveal-on-scroll">
             <div class="team-img-wrap">
               <img src="${m.image}"
                    alt="${escapeHtml(m.name)}"
@@ -1997,13 +2120,13 @@ function renderPublicSite(config, envWarnings) {
   <!-- Interactive Online Booking Section -->
   <section id="booking" class="section-wrap booking-section">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Instant Reservation</span>
         <h2 class="section-title">Book Your Appointment</h2>
         <p class="section-desc">Select your desired treatment, choose an available time slot, and receive immediate appointment confirmation.</p>
       </div>
 
-      <div class="booking-form-box">
+      <div class="booking-form-box reveal-on-scroll">
         <form id="sectionBookingForm" onsubmit="handleBookingSubmit(event, 'sectionBookingForm')">
           <!-- Anti-bot honeypot -->
           <input type="text" name="hp_website" style="display: none !important;" tabindex="-1" autocomplete="off">
@@ -2064,20 +2187,22 @@ function renderPublicSite(config, envWarnings) {
           <div id="sec-booking-error" style="display: none; background: #FFF5F5; border: 1px solid #FEB2B2; color: #C53030; padding: 0.85rem; border-radius: 12px; font-size: 0.875rem; margin-bottom: 1.25rem;"></div>
 
           <button type="submit" id="sec-submit-btn" class="clay-btn" style="width: 100%; padding: 1rem;">
-            Confirm &amp; Reserve Appointment
+            ${ICONS.calendar}
+            <span>Confirm &amp; Reserve Appointment</span>
           </button>
         </form>
 
         <!-- Success View State -->
         <div id="sec-booking-success" style="display: none; text-align: center; padding: 2rem 1rem;">
-          <div style="width: 60px; height: 60px; background: var(--color-sage-soft); color: var(--color-sage-dark); font-size: 2rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.25rem;">✓</div>
+          <div class="success-icon-wrap">${ICONS.check}</div>
           <h3 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--text-main);">Appointment Reserved!</h3>
           <p style="color: var(--text-muted); font-size: 0.95rem; margin-bottom: 1.5rem;">
             Your booking reference is <strong id="sec-success-ref" style="color: var(--color-sage-dark); font-family: monospace;"></strong>. A confirmation has been logged with our clinic concierge.
           </p>
           <div style="display: flex; flex-direction: column; gap: 0.75rem; max-width: 380px; margin: 0 auto;">
-            <a id="sec-success-wa" href="#" target="_blank" class="clay-btn" style="background: #25D366; border-color: rgba(255,255,255,0.4);">
-              Confirm on WhatsApp &rarr;
+            <a id="sec-success-wa" href="#" target="_blank" rel="noopener noreferrer" class="clay-btn" style="background: #25D366; border-color: rgba(255,255,255,0.4);">
+              ${ICONS.whatsapp}
+              <span>Confirm on WhatsApp &rarr;</span>
             </a>
             <button onclick="resetBookingForm('sectionBookingForm')" class="clay-btn clay-btn-secondary">
               Book Another Appointment
@@ -2091,7 +2216,7 @@ function renderPublicSite(config, envWarnings) {
   <!-- FAQ Accordion (6 Items) -->
   <section class="section-wrap">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Common Questions</span>
         <h2 class="section-title">Frequently Asked Questions</h2>
         <p class="section-desc">Everything you need to know about preparing for your facial, policies, and post-care routines.</p>
@@ -2101,10 +2226,10 @@ function renderPublicSite(config, envWarnings) {
         ${config.faqs
           .map(
             (faq, idx) => `
-          <div class="faq-item ${idx === 0 ? 'active' : ''}">
+          <div class="faq-item reveal-on-scroll ${idx === 0 ? 'active' : ''}">
             <button class="faq-question" onclick="toggleFaq(this)">
               <span>${escapeHtml(faq.question)}</span>
-              <span class="faq-icon">+</span>
+              ${ICONS.chevron}
             </button>
             <div class="faq-answer">
               ${escapeHtml(faq.answer)}
@@ -2120,7 +2245,7 @@ function renderPublicSite(config, envWarnings) {
   <!-- Hours, Keyless Interactive Map & Directions -->
   <section id="hours" class="section-wrap" style="background: var(--bg-surface); border-top: 1px solid var(--border-subtle);">
     <div class="container">
-      <div class="section-header">
+      <div class="section-header reveal-on-scroll">
         <span class="section-kicker">Find Us</span>
         <h2 class="section-title">Clinic Schedule &amp; Location</h2>
         <p class="section-desc">Centrally located with convenient client parking and elevator access.</p>
@@ -2128,7 +2253,7 @@ function renderPublicSite(config, envWarnings) {
 
       <div class="map-grid">
         <!-- Schedule & Contact Card -->
-        <div style="background: var(--bg-cream); padding: 2.25rem; border-radius: 20px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column;">
+        <div class="reveal-on-scroll" style="background: var(--bg-cream); padding: 2.25rem; border-radius: 20px; border: 1px solid var(--border-subtle); display: flex; flex-direction: column;">
           <h3 style="font-size: 1.65rem; margin-bottom: 0.5rem; color: var(--text-main);">Clinic Operating Hours</h3>
           <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">Timezone: ${escapeHtml(config.timezone)}</p>
 
@@ -2160,7 +2285,7 @@ function renderPublicSite(config, envWarnings) {
               </tr>
               <tr>
                 <td>Sunday</td>
-                <td style="color: #9B1C1C;">Closed</td>
+                <td style="color: #9B1C1C; font-weight: 600;">Closed</td>
               </tr>
             </tbody>
           </table>
@@ -2171,17 +2296,19 @@ function renderPublicSite(config, envWarnings) {
 
             <div style="display: flex; gap: 0.75rem; flex-wrap: wrap;">
               <a href="${dirLink}" target="_blank" rel="noopener noreferrer" class="clay-btn clay-btn-sm">
-                Get Directions &rarr;
+                ${ICONS.mapPin}
+                <span>Get Directions &rarr;</span>
               </a>
               <a href="${telLink}" class="clay-btn clay-btn-secondary clay-btn-sm">
-                Call Clinic
+                ${ICONS.phone}
+                <span>Call Clinic</span>
               </a>
             </div>
           </div>
         </div>
 
         <!-- Embedded Keyless Map Iframe -->
-        <div class="map-iframe-wrap">
+        <div class="map-iframe-wrap reveal-on-scroll">
           <iframe
             width="100%"
             height="100%"
@@ -2225,10 +2352,10 @@ function renderPublicSite(config, envWarnings) {
         <div>
           <h4 style="font-family: 'Plus Jakarta Sans', sans-serif; font-size: 0.9rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.25rem;">Contact</h4>
           <ul style="list-style: none; display: flex; flex-direction: column; gap: 0.6rem; font-size: 0.875rem;">
-            <li><a href="${telLink}">${escapeHtml(config.phone)}</a></li>
-            <li><a href="${waLink}" target="_blank">WhatsApp Direct</a></li>
-            <li><a href="${mailLink}">${escapeHtml(config.email)}</a></li>
-            <li><a href="${dirLink}" target="_blank">Get Directions</a></li>
+            <li><a href="${telLink}" style="display: inline-flex; align-items: center; gap: 0.4rem;">${ICONS.phone} <span>${escapeHtml(config.phone)}</span></a></li>
+            <li><a href="${waLink}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.4rem;">${ICONS.whatsapp} <span>WhatsApp Direct</span></a></li>
+            <li><a href="${mailLink}" style="display: inline-flex; align-items: center; gap: 0.4rem;">${ICONS.mail} <span>${escapeHtml(config.email)}</span></a></li>
+            <li><a href="${dirLink}" target="_blank" rel="noopener noreferrer" style="display: inline-flex; align-items: center; gap: 0.4rem;">${ICONS.mapPin} <span>Get Directions</span></a></li>
           </ul>
         </div>
 
@@ -2249,26 +2376,26 @@ function renderPublicSite(config, envWarnings) {
     </div>
   </footer>
 
-  <!-- 5 Actions Floating Glass Dock (Bottom bar on mobile, side rail on desktop) -->
+  <!-- 5 Actions Floating Glass Dock (Using clean SVG icons) -->
   <aside class="floating-dock" aria-label="Quick Actions">
     <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="dock-btn" title="Chat on WhatsApp">
-      <span style="font-size: 1.15rem;">💬</span>
+      ${ICONS.whatsapp}
       <span class="dock-label">WhatsApp</span>
     </a>
     <a href="${telLink}" class="dock-btn" title="Call Clinic">
-      <span style="font-size: 1.15rem;">📞</span>
+      ${ICONS.phone}
       <span class="dock-label">Call</span>
     </a>
     <a href="${mailLink}" class="dock-btn" title="Email Us">
-      <span style="font-size: 1.15rem;">✉️</span>
+      ${ICONS.mail}
       <span class="dock-label">Email</span>
     </a>
     <a href="${dirLink}" target="_blank" rel="noopener noreferrer" class="dock-btn" title="Google Maps Directions">
-      <span style="font-size: 1.15rem;">📍</span>
+      ${ICONS.mapPin}
       <span class="dock-label">Directions</span>
     </a>
     <button onclick="openBookingModal()" class="dock-btn dock-btn-primary" title="Book Appointment">
-      <span style="font-size: 1.15rem;">📅</span>
+      ${ICONS.calendar}
       <span class="dock-label">Book</span>
     </button>
   </aside>
@@ -2340,20 +2467,22 @@ function renderPublicSite(config, envWarnings) {
         <div id="modal-booking-error" style="display: none; background: #FFF5F5; border: 1px solid #FEB2B2; color: #C53030; padding: 0.75rem; border-radius: 10px; font-size: 0.85rem; margin-bottom: 1rem;"></div>
 
         <button type="submit" id="modal-submit-btn" class="clay-btn" style="width: 100%; padding: 0.9rem;">
-          Confirm Booking
+          ${ICONS.calendar}
+          <span>Confirm Booking</span>
         </button>
       </form>
 
       <!-- Modal Success Screen -->
       <div id="modal-booking-success" style="display: none; text-align: center; padding: 1.5rem 0.5rem;">
-        <div style="width: 54px; height: 54px; background: var(--color-sage-soft); color: var(--color-sage-dark); font-size: 1.85rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem;">✓</div>
+        <div class="success-icon-wrap">${ICONS.check}</div>
         <h3 style="font-size: 1.85rem; margin-bottom: 0.5rem; color: var(--text-main);">Appointment Confirmed</h3>
         <p style="color: var(--text-muted); font-size: 0.9rem; margin-bottom: 1.5rem;">
           Your reference: <strong id="modal-success-ref" style="color: var(--color-sage-dark); font-family: monospace;"></strong>
         </p>
         <div style="display: flex; flex-direction: column; gap: 0.75rem;">
-          <a id="modal-success-wa" href="#" target="_blank" class="clay-btn" style="background: #25D366; border-color: rgba(255,255,255,0.4);">
-            Confirm on WhatsApp &rarr;
+          <a id="modal-success-wa" href="#" target="_blank" rel="noopener noreferrer" class="clay-btn" style="background: #25D366; border-color: rgba(255,255,255,0.4);">
+            ${ICONS.whatsapp}
+            <span>Confirm on WhatsApp &rarr;</span>
           </a>
           <button onclick="closeBookingModal()" class="clay-btn clay-btn-secondary">
             Done
@@ -2513,58 +2642,110 @@ function renderPublicSite(config, envWarnings) {
       successBox.style.display = 'none';
     }
 
-    // 6. Smooth Animated Number Counters (easeOutCubic over 1.8s)
+    // 6. Smooth Animated Number Counters (easeOutCubic over 2.0s with comma support)
     function easeOutCubic(t) {
       return 1 - Math.pow(1 - t, 3);
     }
 
-    function animateNumber(element, target, duration, decimals = 0, suffix = '') {
+    function animateNumber(element, target, duration = 2000, decimals = 0, suffix = '') {
       const startTime = performance.now();
-      function step(now) {
+      const isLargeInteger = decimals === 0 && target >= 100;
+
+      function update(now) {
         const elapsed = now - startTime;
         const progress = Math.min(elapsed / duration, 1);
-        const current = target * easeOutCubic(progress);
-        element.textContent = current.toFixed(decimals) + suffix;
-        if (progress < 1) {
-          requestAnimationFrame(step);
+        const ease = easeOutCubic(progress);
+        const current = target * ease;
+
+        if (decimals === 0) {
+          const intVal = Math.round(current);
+          element.textContent = (isLargeInteger ? intVal.toLocaleString('en-US') : intVal) + suffix;
         } else {
-          element.textContent = target.toFixed(decimals) + suffix;
+          element.textContent = current.toFixed(decimals) + suffix;
+        }
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          if (decimals === 0) {
+            element.textContent = (isLargeInteger ? Math.round(target).toLocaleString('en-US') : Math.round(target)) + suffix;
+          } else {
+            element.textContent = target.toFixed(decimals) + suffix;
+          }
         }
       }
-      requestAnimationFrame(step);
+      requestAnimationFrame(update);
     }
 
-    // IntersectionObserver to trigger counting & progress bars
-    const observer = new IntersectionObserver(
-      (entries, obs) => {
+    // 7. Initialize Scroll Reveal, Animated Counters & Progress Bars
+    function initAnimations() {
+      // Counters
+      const counterElements = document.querySelectorAll('[data-count-target]');
+      const counterObserver = new IntersectionObserver((entries, obs) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Number counters
-            const targets = entry.target.querySelectorAll('[data-count-target]');
-            targets.forEach(el => {
-              const val = parseFloat(el.getAttribute('data-count-target'));
-              const dec = parseInt(el.getAttribute('data-decimals') || '0', 10);
-              const suf = el.getAttribute('data-suffix') || '';
-              animateNumber(el, val, 1800, dec, suf);
-            });
+            const el = entry.target;
+            if (el.dataset.animated) return;
+            el.dataset.animated = 'true';
+            const target = parseFloat(el.getAttribute('data-count-target'));
+            const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+            const suffix = el.getAttribute('data-suffix') || '';
+            animateNumber(el, target, 2000, decimals, suffix);
+            obs.unobserve(el);
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -20px 0px' });
 
-            // Distribution bars
-            const bars = entry.target.querySelectorAll('[data-progress-width]');
-            bars.forEach(b => {
-              const width = b.getAttribute('data-progress-width');
-              b.style.width = width;
-            });
+      counterElements.forEach(el => counterObserver.observe(el));
 
+      // Immediate check in case elements are already in view on load
+      setTimeout(() => {
+        counterElements.forEach(el => {
+          if (!el.dataset.animated) {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+              el.dataset.animated = 'true';
+              const target = parseFloat(el.getAttribute('data-count-target'));
+              const decimals = parseInt(el.getAttribute('data-decimals') || '0', 10);
+              const suffix = el.getAttribute('data-suffix') || '';
+              animateNumber(el, target, 2000, decimals, suffix);
+            }
+          }
+        });
+      }, 150);
+
+      // Distribution progress bars
+      const bars = document.querySelectorAll('[data-progress-width]');
+      const barObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const bar = entry.target;
+            const width = bar.getAttribute('data-progress-width');
+            bar.style.width = width;
+            obs.unobserve(bar);
+          }
+        });
+      }, { threshold: 0.1 });
+      bars.forEach(b => barObserver.observe(b));
+
+      // Scroll Reveal for cards and sections
+      const revealElements = document.querySelectorAll('.reveal-on-scroll');
+      const revealObserver = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('is-revealed');
             obs.unobserve(entry.target);
           }
         });
-      },
-      { threshold: 0.2 }
-    );
+      }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+      revealElements.forEach(el => revealObserver.observe(el));
+    }
 
-    document.querySelectorAll('.trust-strip, .google-card').forEach(sec => {
-      observer.observe(sec);
-    });
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initAnimations);
+    } else {
+      initAnimations();
+    }
   </script>
 </body>
 </html>`;
